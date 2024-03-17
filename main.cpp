@@ -8,7 +8,7 @@ int main()
 	char ch;
 	do
 	{
-cout<<"\n\n***************Fitness**Trainer***************";
+cout<<"\n\n***************Auction**System***************";
 		cout<<"\n\n1. SIGNIN";
 		cout<<"\n\n2. LOGIN";
 		cout<<"\n\n3. EXIT";
