@@ -3,6 +3,9 @@
 using namespace std;
 class member{
 int signin_choice;
+string bidder_name, bidder_password;
+long long int bidder_phone_number;
+
 public:
 void signin()
 {
@@ -17,6 +20,7 @@ void signin()
   switch(signin_choice){
     case 1:
         cout<<"Bidder"<<endl;
+        bidder_signin();
         break;
     case 2:
         cout<<"Seller"<<endl;
@@ -73,4 +77,17 @@ int int_validate(int input,int lower,int upper)
 			}while(flag!=1);
     return input;
     }
+void bidder_signin(){
+  cout<<"Enter your name :-";
+  cin>>bidder_name;
+  cout<<"Enter mobile number :-";
+  cin>>bidder_phone_number;
+  bidder_phone_number=long_long_int_validate (bidder_phone_number,999999999, 10000000000);
+  cout<<"Enter your password :-";
+  cin>>bidder_password;
+  fstream file;
+  file.open ("bidder_signin_request.txt",ios::app);
+  file<<bidder_name<<"\t"<<bidder_phone_number<<"\t"<<bidder_password<<endl;
+  file.close();
+}
 };
