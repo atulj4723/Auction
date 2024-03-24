@@ -114,6 +114,7 @@ void admin_signin(){
 void admin_login() 
 { long long int phone_number;
  string password;
+ int choice;
   
   cout<<"\n\nAdmin login "<<endl;
   cout<<"\nEnter phone number :-";
@@ -122,13 +123,25 @@ phone_number=long_long_int_validate (phone_number, 999999999,10000000000);
   cout<<"\nEnter password :-";
   cin>>password;
   fstream file;
-  file.open("admin_signin_request.txt",ios::in) ;
+  file.open("admin_signin_approved.txt",ios::in) ;
     file>>admin_name>>admin_phone_number>>admin_password;
     while (!file.eof()){
     if(admin_phone_number==phone_number && admin_password==password)
     {
       cout<<"Login successfull"<<endl;
       cout<<"\n\nAdmin name :-"<<admin_name;
+      cout<<"\n1.Approve signin request \n2.Reject signin request \n3.Exit";
+      cout<<"Enter your choice :-";     cin>>choice;
+      choice=int_validate(choice,1,2);
+      switch(choice)
+        {
+          case 1:
+          cout<<"\n\nApprove signin request"<<endl;
+          approve_signin_request();
+          break;
+          
+          
+        }
       break;
     }
     file>>admin_name>>admin_phone_number>>admin_password;}
@@ -146,7 +159,7 @@ phone_number=long_long_int_validate (phone_number, 999999999,10000000000);
   cout<<"\nEnter password :-";
   cin>>password;
   fstream file;
-  file.open("seller_signin_request.txt",ios::in) ;
+  file.open("seller_signin_approved.txt",ios::in) ;
     file>>seller_name>>seller_phone_number>>seller_password;
     while (!file.eof()){
     if(seller_phone_number==phone_number && seller_password==password)
@@ -169,7 +182,7 @@ void bidder_login()
   cout<<"\nEnter password :-";
   cin>>password;
   fstream file;
-  file.open("bidder_signin_request.txt",ios::in) ;
+  file.open("bidder_signin_approved.txt",ios::in) ;
     file>>bidder_name>>bidder_phone_number>>bidder_password;
     while (!file.eof()){
     if(bidder_phone_number==phone_number && bidder_password==password)
@@ -181,6 +194,116 @@ void bidder_login()
     file>>bidder_name>>bidder_phone_number>>bidder_password;}
  file.close();
 }
+void approve_signin_request () 
+{ int choice;
+  cout<<"\n1.Approve Bidder Signin Request\n2.Approve Seller Signin Request\n3.Approve Admin Signin Request ";
+  cout<<"\nEnter your choice :-";
+  cin>>choice;
+  choice=int_validate(choice, 1,3) ;
+  switch(choice){
+    case 1:
+        approve_bidder_signin_request ();
+       break;
+    case 2:
+        approve_seller_signin_request () ;
+        break;
+    case 3:
+        approve_admin_signin_request ();
+break;
+    default :
+      cout<<"Invalid choice "<<endl;
+break;
+    }
+  
+}
+void reject_signin_request (){
+  int choice;
+  cout<<"\n1.Reject Bidder Signin Request\n2.Reject Seller Signin Request\n3.Reject Admin Signin Request ";
+  cout<<"\nEnter your choice :-";
+  cin>>choice;
+  choice=int_validate(choice, 1,3) ;
+  switch(choice){
+    case 1:
+        reject_bidder_signin_request ();
+       break;
+    case 2:
+        reject_seller_signin_request () ;
+        break;
+    case 3:
+        reject_admin_signin_request ();
+break;
+    default :
+      cout<<"Invalid choice "<<endl;
+break;
+}}
+void approve_bidder_signin_request () {
+  long long int phone;
+int count;
+  fstream file3;
+    file3.open("bidder_signin_request.txt",ios::in);
+    file3>>bidder_name>>bidder_phone_number>>bidder_password;
+      cout<<"Signin Request Pending";
+    while(!file3.eof()){
+      cout<<"\n"<<count<<". "<<"Bidder name:-"<<bidder_name<<"\t"<<"Phone Number"<<bidder_phone_number;
+count++;  file3>>bidder_name>>bidder_phone_number>>bidder_password;
+    }
+      file3.close();
+  cout<<"Enter number to approve request :- ";
+cin>>phone;
+phone=long_long_int_validate (phone, 999999999,10000000000);
+      fstream file;
+      file.open("bidder_signin_request.txt", ios::in);
+      file>>bidder_name>>bidder_phone_number>>bidder_password;
+      while(!file.eof()){
+        if(bidder_phone_number==phone) {
+          cout<<"Request approved";
+          fstream file1;
+          file1.open("bidder_signin_approved.txt",ios::app);
+file1<<bidder_name<<"\t"<<bidder_phone_number<<"\t"<<bidder_password;
+          file1.close();
+        }
+        else{
+          fstream file2;
+          file2.open("bidder_signin_request1.txt", ios::app);
+          file2<<bidder_name<<"\t"<<bidder_phone_number<<"\t"<<bidder_password;
+          file2.close();
+        }
+        file>>bidder_name>>bidder_phone_number>>bidder_password;
+      }
+      file.close() ;
+  remove("bidder_signin_request.txt") ;      rename("bidder_signin_request1.txt","bidder_signin_request.txt");
+}
+void approve_seller_signin_request () {}
+void approve_admin_signin_request () {}
+void reject_bidder_signin_request () {
+  long long int phone;
+  cout<<"Enter number to approve request :- ";
+cin>>phone;
+phone=long_long_int_validate (phone, 999999999,10000000000);
+      fstream file;
+      file.open("bidder_signin_request.txt", ios::in);
+      file>>bidder_name>>bidder_phone_number>>bidder_password;
+      while(!file.eof()){
+        if(bidder_phone_number==phone) {
+          cout<<"Request rejected";
+          fstream file1;
+          file1.open("bidder_signin_rejected.txt",ios::app);
+file1<<bidder_name<<"\t"<<bidder_phone_number<<"\t"<<bidder_password;
+          file1.close();
+        }
+        else{
+          fstream file2;
+          file2.open("bidder_signin_request1.txt", ios::app);
+          file2<<bidder_name<<"\t"<<bidder_phone_number<<"\t"<<bidder_password;
+          file2.close();
+        }
+        file>>bidder_name>>bidder_phone_number>>bidder_password;
+      }
+      file.close() ;
+  remove("bidder_signin_request.txt") ;      rename("bidder_signin_request1.txt","bidder_signin_request.txt");
+}
+void reject_seller_signin_request () {}
+void reject_admin_signin_request () {}
 int int_validate(int input,int lower,int upper)
 		{
 			int flag=0;
