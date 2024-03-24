@@ -11,23 +11,20 @@ void signin()
 {
  do{
    cout<<"\n\nSignin"<<endl;
-   cout<<"1.Bidder"<<endl;
-  cout<<"2.Seller"<<endl;
-  cout<<"3.Admin"<<endl;
-  cout<<"4.Exit"<<endl;
-  cout<<"Enter your choice:-";
+   cout<<"\n1.Bidder"<<endl;
+  cout<<"\n2.Seller"<<endl;
+  cout<<"\n3.Admin"<<endl;
+  cout<<"\n4.Exit"<<endl;
+  cout<<"\nEnter your choice:-";
   cin>>signin_choice;
   switch(signin_choice){
     case 1:
-        cout<<"Bidder"<<endl;
         bidder_signin();
         break;
     case 2:
-        cout<<"Seller"<<endl;
         seller_signin() ;
         break;
     case 3:
-        cout<<"Admin"<<endl;
         admin_signin() ;
         break;
     case 4:
@@ -43,23 +40,20 @@ void login ()
 {
   do{
    cout<<"\n\nLogin"<<endl;
-   cout<<"1.Bidder"<<endl;
-  cout<<"2.Seller"<<endl;
-  cout<<"3.Admin"<<endl;
-  cout<<"4.Exit"<<endl;
-  cout<<"Enter your choice:-";
+   cout<<"\n1.Bidder"<<endl;
+  cout<<"\n2.Seller"<<endl;
+  cout<<"\n3.Admin"<<endl;
+  cout<<"\n4.Exit"<<endl;
+  cout<<"\nEnter your choice:-";
   cin>>signin_choice;
   switch(signin_choice){
     case 1:
-        cout<<"Bidder"<<endl;
         bidder_login();
         break;
     case 2:
-        cout<<"Seller"<<endl;
         seller_login() ;
         break;
     case 3:
-        cout<<"Admin"<<endl;
         admin_login() ;
         break;
     case 4:
@@ -72,12 +66,13 @@ void login ()
           }}while (signin_choice!=4);
 }
 void bidder_signin(){
-  cout<<"Enter your name :-";
+  cout<<"\n\n\t\tBidder Signin";
+  cout<<"\nEnter your name :-";
   cin>>bidder_name;
-  cout<<"Enter mobile number :-";
+  cout<<"\nEnter mobile number :-";
   cin>>bidder_phone_number;
   bidder_phone_number=long_long_int_validate (bidder_phone_number,999999999, 10000000000);
-  cout<<"Enter your password :-";
+  cout<<"\nEnter your password :-";
   cin>>bidder_password;
   fstream file;
   file.open ("bidder_signin_request.txt",ios::app);
@@ -85,12 +80,13 @@ void bidder_signin(){
   file.close();
 }
 void seller_signin(){
-  cout<<"Enter your name :-";
+  cout<<"\n\n\t\tSeller Signin";
+  cout<<"\nEnter your name :-";
   cin>>seller_name;
-  cout<<"Enter mobile number :-";
+  cout<<"\nEnter mobile number :-";
   cin>>seller_phone_number;
   seller_phone_number=long_long_int_validate (seller_phone_number,999999999, 10000000000);
-  cout<<"Enter your password :-";
+  cout<<"\nEnter your password :-";
   cin>>seller_password;
   fstream file;
   file.open ("seller_signin_request.txt",ios::app);
@@ -98,12 +94,13 @@ void seller_signin(){
   file.close();
 }
 void admin_signin(){
-  cout<<"Enter your name :-";
+  cout<<"\n\n\t\tAdmin Signin";
+  cout<<"\nEnter your name :-";
   cin>>admin_name;
-  cout<<"Enter mobile number :-";
+  cout<<"\nEnter mobile number :-";
   cin>>admin_phone_number;
   admin_phone_number=long_long_int_validate (admin_phone_number,999999999, 10000000000);
-  cout<<"Enter your password :-";
+  cout<<"\nEnter your password :-";
   cin>>admin_password;
   fstream file;
   file.open ("admin_signin_request.txt",ios::app);
@@ -122,31 +119,75 @@ void admin_login()
 phone_number=long_long_int_validate (phone_number, 999999999,10000000000);
   cout<<"\nEnter password :-";
   cin>>password;
+ cout<<"h1";
   fstream file;
-  file.open("admin_signin_approved.txt",ios::in) ;
-    file>>admin_name>>admin_phone_number>>admin_password;
+  file.open("admin_signin_approved.txt",ios::in) ; 
+ 
+ file>>admin_name>>admin_phone_number>>admin_password;
     while (!file.eof()){
     if(admin_phone_number==phone_number && admin_password==password)
     {
-      cout<<"Login successfull"<<endl;
-      cout<<"\n\nAdmin name :-"<<admin_name;
-      cout<<"\n1.Approve signin request \n2.Reject signin request \n3.Exit";
-      cout<<"Enter your choice :-";     cin>>choice;
+      cout<<"\n\n\t\tLogin Successfull"<<endl;
+      cout<<"\n\nAdmin Name :-"<<admin_name;
+      cout<<"\n1.Signin Request \n2. Bid request\n3.Current Open Bids \n4.Delete Member \n5.Exit";
+      cout<<"\nEnter your choice :-";     cin>>choice;
       choice=int_validate(choice,1,2);
       switch(choice)
         {
           case 1:
-          cout<<"\n\nApprove signin request"<<endl;
-          approve_signin_request();
+          signin_request();
           break;
           
           
         }
       break;
     }
+    
     file>>admin_name>>admin_phone_number>>admin_password;}
  file.close();
   
+}
+void signin_request(){
+  int choice;
+  cout<<"\n\n\t\tSignin Request ";
+  cout<<"\n1.Bidder \n2.Seller \n3.Admin \n4.Exit";
+  cout<<"\nEnter your choice :-";
+  cin>>choice;
+  choice=int_validate(choice, 1,4);
+  switch (choice){
+    case 1:
+    bidder_signin_request ();
+    break;
+  
+  }}    
+void bidder_signin_request () {
+  int choice=0;
+  int count=1;
+  fstream file3;
+    file3.open("bidder_signin_request.txt",ios::in);
+    file3>>bidder_name>>bidder_phone_number>>bidder_password;
+      cout<<"Signin Request Pending";
+    while(!file3.eof()){
+      cout<<"\n"<<count<<". "<<"Bidder name:-"<<bidder_name<<"\t"<<"Phone Number :-"<<bidder_phone_number;
+count++;  file3>>bidder_name>>bidder_phone_number>>bidder_password;
+    }
+      file3.close();
+  cout<<"\n1.Approve Request \n2.Reject Request\n3.Exit";
+  cout<<"\nEnter your choice :-";
+cin>>choice;
+choice=int_validate(choice, 1,3) ;
+
+  switch (choice){
+    case 1:
+    approve_bidder_signin_request ();
+    break;
+    case 2:
+    reject_bidder_signin_request ();
+    break;
+    case 3:
+    cout<<"Exit";
+
+  }
 }
 void seller_login() 
 {long long int phone_number;
@@ -238,16 +279,6 @@ break;
 }}
 void approve_bidder_signin_request () {
   long long int phone;
-int count;
-  fstream file3;
-    file3.open("bidder_signin_request.txt",ios::in);
-    file3>>bidder_name>>bidder_phone_number>>bidder_password;
-      cout<<"Signin Request Pending";
-    while(!file3.eof()){
-      cout<<"\n"<<count<<". "<<"Bidder name:-"<<bidder_name<<"\t"<<"Phone Number"<<bidder_phone_number;
-count++;  file3>>bidder_name>>bidder_phone_number>>bidder_password;
-    }
-      file3.close();
   cout<<"Enter number to approve request :- ";
 cin>>phone;
 phone=long_long_int_validate (phone, 999999999,10000000000);
